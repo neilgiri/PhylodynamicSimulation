@@ -1,0 +1,134 @@
+# This contains all the parameters used in the model.
+# These values correspond to defaults.
+# Leaving an entry out is fine, the value will remain at its default.
+
+                                            # simulation parameters
+burnin: 5475                                # days to wait before logging output 
+endDay: 6935                                # number of days to simulate
+deltaT: 0.1                                 # number of days to move forward in a single timestep
+printStep: 90                               # print to out.timeseries every X days
+tipSamplingRate: 0.002                      # store X samples per deme per day
+tipSamplesPerDeme: 1000                     # cap number of samples per deme
+tipSamplingProportional: true               # whether to sample proportional to prevalence
+treeProportion: 0.1                         # proportion of tips to use in tree reconstruction
+diversitySamplingCount: 1000                # how many samples to draw to calculate diversity, netau and serial interval
+netauWindow: 100                            # window in days to calculate Ne*tau
+repeatSim: false                            # repeat simulation until endDay is reached?
+immunityReconstruction: false               # whether to print immunity reconstruction to out.immunity
+memoryProfiling: false                      # requires -javaagent:classmexer.jar to run
+yearsFromMK: 1.0                            # how many years to consider present when calculating MK
+pcaSamples: false                           # whether to rotate and flip virus tree
+reducedOutput: false                        # whether to output only out.summary and out.timeseries
+detailedOutput: false                       # whether to output out.hosts and out.viruses files enabling checkpointing
+restartFromCheckpoint: false                # whether to load population from out.hosts	
+
+                                            # metapopulation parameters
+demeCount: 1                                # number of demes
+demeNames: ["vietnam"]                      # deme names
+initialNs: [20000]                          # inital deme population sizes
+swapDemography: false                       # whether to keep overall population size constant
+
+                                            # epidemiological parameters    
+initialI: 100                               # in individuals
+initialDeme: 1                              # index of deme where infection starts, 1..n
+initialPrR: 0.5                             # as proportion of population
+
+beta: 2.1                                   # in contacts per individual per day. Suggested
+                                            # value of 0.0078/year => 2.847, see
+                                            # http://www.pnas.org/content/106/25/10365.Ben
+
+nu: 0.2                                     # Infections period = 5 days. In recoveries per 
+                                            # individual per day
+                                            # See doi: 10.1111/j.1365-2664.2010.01845.x
+                                            
+betweenDemePro: 0.0                         # relative to within-deme beta
+culling: 0.0                                # percentage of infected to cull
+vaccinate: 0.0                              # percentage of susceptible vacc
+
+                                            # transcendental parameters
+transcendental: false                        # whether to include a general recovered class
+immunityLoss: 0.5                           # in R->S per individual per day
+initialPrT: 0.1                             # initial faction in general recovered class
+        
+                                            # seasonal parameters           
+demeBaselines: [1.0]                        # baseline of seasonality
+demeAmplitudes: [0.15]                      # amplitude of seasonality. Temp variation 29c to 17c.
+demeOffsets: [0.0]                          # seasonal offset relative to the year.
+                                            # Leave 0 for hot in july. make it 0.5 if hot in december
+    
+                                            # phenotype parameters  
+phenotypeSpace: "geometric"                 # options include: geometric, geometric3d, geometric10d
+muPhenotype: 1.0                          # number of infected individuals experiencing
+                                            # viral mutations. 
+                                            
+smithConversion: 0.042                      # multiplier to distance to give cross-immunity
+                                            # This is 1 / 24, 24 = 1.5% of 1600 nt which is
+                                            # the value used by WHO for antigenic difference
+
+antigenicShape: 3.0                         # Shape parameter for antigenic space to convert
+                                            # phylogenetic distances between phenotypes to
+                                            # antigenic distance.
+                                            
+minCrossImmunity: 0.95                       # Minimal cross immunity to use to determine 
+                                            # antigenic distance.  See page S-16 in
+                                            # http://bedford.io/pdfs/papers/roche-aiv-persistence-supp.pdf
+                                            
+homologousImmunity: 0.95                    # immunity raised to antigenically identical virus
+initialTraitA: 0.0                          # value in dimension 1 for initial host immunity
+meanStep: 0.086                             # mean mutation size -- See  koelle-06
+mut2D: false                                # whether to mutate in a full 360 degree arc
+sdStep: 0.3                                 # standard deviation of mutation size.
+fixedStep: true                             # whether to fix step size. true => ignore sdStep
+
+Environment:
+   - deme: 0
+     envUpTakeRate: 0.0184                  # Contact rate with water/environment at 6.73/year
+                                            # = 6.73/365 = 0.0184 per day. 6.73 is from
+                                            # doi:10.1016/j.meegid.2009.04.009. See Table 1
+                                            # and Figure 1 caption.
+     id50: 100.0
+     envDurability: 20.0                    # 20 days
+     sheddingRate: 1.0e12                   # Shedding rate could be lower at 1e7.
+     seasonalAmp: 0.5                       # Temperature dependent modulation
+
+BirdSpecies:
+   -                        # ---------- birds in a deme --------------
+     - deme: 0              # Index number of deme associated with species
+     
+     - Name: A.Penelope     # Eurasian Wigeon
+       Fraction: 0.75       # Fraction of the population for this species
+       broodStart: 30       # Day-of-year when brooding starts (spring)
+       broodEnd: 107        # Day-of-year when brooding ends
+       birthRate: 0.00136   # births per individual/day during the year.
+       deathRate: 0.00136   # in deaths per individual per day, 1/2.02 years = 0.00136
+       
+     - Name: A.Acuta        # Northern Pintail
+       Fraction: 0.05       # Fraction of the population for this species
+       broodStart: 30       # Day-of-year when brooding starts (spring & summer)
+       broodEnd: 210        # Day-of-year when brooding ends
+       birthRate: 0.00091   # births per individual/day during the year.
+       deathRate: 0.00091   # in deaths per individual per day, 1/3 years = 0.00091
+
+     - Name: L.Limosa       # Black-tailed Godwit
+       Fraction: 0.15       # Fraction of the population for this species
+       broodStart: 30       # Day-of-year when brooding starts (spring)
+       broodEnd: 210        # Day-of-year when brooding ends
+       birthRate: 0.00015   # births per individual/day during the year.
+       deathRate: 0.00015   # in deaths per individual per day, 1/18 years
+
+     - Name: L.Canus         # Common Gull
+       Fraction: 0.05       # Fraction of the population for this species
+       broodStart: 58       # Day-of-year when brooding starts (march-april)
+       broodEnd: 100        # Day-of-year when brooding ends
+       birthRate: 0.000274  # births per individual/day during the year.
+       deathRate: 0.000274  # in deaths per individual per day, 1/10 years
+
+# ---- The following global species parameters are not really used ---#
+
+birthRate: 0.0                         # in births per individual per day
+deathRate: 0.0                         # in deaths per individual per day
+broodBirthRate: 0.0                    # percent increase of births during brooding season
+seasonDeathRate: 0.0                   # percent increase of deaths following brooding season
+baseRate: 0.0                          # the rate of births and deaths without increase
+broodSeasonStart: 30.0                      # the start of brooding season in days
+broodSeasonEnd: 107.0                       # the end of brooding season in days

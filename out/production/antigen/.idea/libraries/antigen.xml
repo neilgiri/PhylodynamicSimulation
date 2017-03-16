@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="antigen">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/snakeyaml-1.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/colt-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/classmexer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
